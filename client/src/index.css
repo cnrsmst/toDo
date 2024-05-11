@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.main-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-div div {
+  margin-right: 30px;
+}
+
+.trash-icon:hover {
+  cursor: pointer;
+}
+
+.add-button {
+  border-radius: 0px 5px 5px 0px;
+}
+.logout-button {
+  border: 1px solid gray;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 18px;
+}
+

@@ -10,7 +10,7 @@ const ToDos = ({ setLoggedIn , isLoggedIn }) => {
   const [newTodo, setNewTodo] = useState('');
   const handleAddTodo = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/save', { toDo: newTodo });
+      const response = await axios.post(`${import.meta.env.VITE_SAVE_TODOS_URL}`, { toDo: newTodo });
       const newTodoItem = response.data;
       setTodos([...todos, newTodoItem]);
       setNewTodo('');
@@ -24,7 +24,7 @@ const ToDos = ({ setLoggedIn , isLoggedIn }) => {
       navigate('/'); // Kullanıcı giriş yapmamışsa ana sayfaya yönlendir
     } else {
       // Kullanıcı giriş yapmışsa Todos verilerini API'den çekme
-      axios.get('http://localhost:5000/api/get')
+      axios.get(`${import.meta.env.VITE_GET_TODOS_URL}`)
         .then(response => {
           setTodos(response.data);
         })
@@ -35,7 +35,7 @@ const ToDos = ({ setLoggedIn , isLoggedIn }) => {
   }, [isLoggedIn, navigate]);
 
   const handleDelete = (id) => {
-    axios.delete(`http://localhost:5000/api/delete/${id}`)
+    axios.delete(`${import.meta.env.VITE_DELETE_TODOS_URL}${id}`)
       .then(response => {
         // Silinen todo listesini güncelle
         const updatedTodos = todos.filter(todo => todo._id !== id);
@@ -60,7 +60,7 @@ const ToDos = ({ setLoggedIn , isLoggedIn }) => {
 <div className="input-group mb-3 w-25">
       <input
         type="text"
-        className="form-control w-75 outline-none shadow-none"
+        className="form-control w-75 outline-none shadow-none inp-deneme"
         placeholder="Add Your Tasks..."
         value={newTodo}
         onChange={(e) => setNewTodo(e.target.value)}
@@ -68,21 +68,22 @@ const ToDos = ({ setLoggedIn , isLoggedIn }) => {
         aria-describedby="basic-addon2"
       />
       <div className="input-group-append">
-        <button className="btn btn-outline-secondary add-button" onClick={handleAddTodo} type="button">
+        <button className="btn btn-outline-secondary add-button mt-2 add-btn" title='Add To Do' onClick={handleAddTodo} type="button">
           Add
         </button>
       </div>
-      <ul className='list-group list-group-flush w-100 mt-2'>
+      <ul className='list-group list-group-flush w-100 mt-3 p-3 border'>
         {todos.map(todo => (
-          <li className='list-group-item d-flex justify-content-between' key={todo._id}>
-            <div>{todo.toDo}</div>
+          <li className='list-group-item d-flex justify-content-between p-3' key={todo._id}>
             <div>
-              <FontAwesomeIcon icon={faTrash} className='trash-icon' onClick={() => handleDelete(todo._id)} size="lg" />
+              {todo.toDo}</div>
+            <div>
+              <FontAwesomeIcon icon={faTrash} title='Delete This To Do' className='trash-icon' onClick={() => handleDelete(todo._id)} size="lg" />
             </div>
           </li>
         ))}
-        <button className='mt-3 p-1 logout-button' onClick={handleLogout}>Çıkış Yap</button>
       </ul>
+      <button className='mt-3 p-1 logout-button w-100' title='Logout' onClick={handleLogout}>Çıkış Yap</button>
     </div>
 
 

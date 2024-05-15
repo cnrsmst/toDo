@@ -7,7 +7,7 @@ const routes = require('./routes/ToDoRoutes');
 dotenv.config();
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT;
 
 
 app.use(express.json());
@@ -24,7 +24,9 @@ mongoose.connect(process.env.MONGO_URI)
 app.use("/api", routes);
 app.use('/auth', authRoutes);
 
-
+app.use("/", (req,res) => {
+    res.send("Hi")
+})
 
 app.listen(PORT, ()=> {
     console.log(`Listening at ${PORT}...`)

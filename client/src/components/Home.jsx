@@ -1,7 +1,31 @@
-import React, { useState } from "react";
+import React, { useState,useRef,useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+
+
 function Home({ setIsLoggedIn }) {
+  const containerRef = useRef(null);
+  const signInButtonRef = useRef(null);
+  const signUpButtonRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const signUpButton = signUpButtonRef.current;
+    const signInButton = signInButtonRef.current;
+
+    const handleSignUpClick = () => {
+      container.classList.add("right-panel-active");
+    };
+
+    const handleSignInClick = () => {
+      container.classList.remove("right-panel-active");
+    };
+
+    signUpButton.addEventListener('click', handleSignUpClick);
+    signInButton.addEventListener('click', handleSignInClick);
+
+  },[])
+
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({ username: "", password: "" });
   const [registerData, setRegisterData] = useState({
@@ -14,7 +38,7 @@ function Home({ setIsLoggedIn }) {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/auth/login",
+        `${import.meta.env.VITE_LOGIN_URL}`,
         loginData
       );
       // Başarılı giriş durumunda yapılacak işlemler
@@ -31,7 +55,7 @@ function Home({ setIsLoggedIn }) {
     event.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5000/auth/register",
+        `${import.meta.env.VITE_REGISTER_URL}`,
         registerData
       );
       // Başarılı kayıt durumunda yapılacak işlemler
@@ -44,95 +68,64 @@ function Home({ setIsLoggedIn }) {
 
   return (
 
-    
-
-    <div className="main-div">
-      <div className="loginForm d-flex align-items-center justify-content-center mt-5">
-        <form onSubmit={handleLoginSubmit}>
-          <div className="form-group">
-            <label htmlFor="exampleInputEmail1">Username</label>
-            <input
-              type="text"
-              className="form-control"
-              value={loginData.username}
-              onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
-              required
-              aria-describedby="emailHelp"
-              placeholder="Enter username"
-            ></input>
-            <small id="emailHelp" className="form-text text-muted">
-              We'll never share your email with anyone else.
-            </small>
-          </div>
-          <div className="form-group">
-            <label htmlFor="exampleInputPassword1">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              value={loginData.password}
-              onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-              required
-              placeholder="Password"
-            ></input>
-          </div>
-          <div className="form-group form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              id="exampleCheck1"
-            ></input>
-            <label className="form-check-label" htmlFor="exampleCheck1">
-              Check me out
-            </label>
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Login
-          </button>
-        </form>
-      </div>
-      <div className="loginForm d-flex align-items-center justify-content-center mt-5">
-        <form onSubmit={handleRegisterSubmit}>
-          <div className="form-group">
-            <label htmlFor="exampleInputEmail1">Username</label>
-            <input
-              type="text"
-              className="form-control"
+<div className="container" id="container" ref={containerRef}>
+	<div className="form-container sign-up-container">
+		<form onSubmit={handleRegisterSubmit}>
+			<h1>Create Account</h1>
+			<input type="text" id="usernameinput"
               value={registerData.username}
               onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
               required
               aria-describedby="emailHelp"
-              placeholder="Enter username"
-            ></input>
-          </div>
-          <div className="form-group">
-            <label htmlFor="exampleInputEmail1">Email</label>
-            <input
-              type="email"
-              className="form-control"
+              placeholder="Enter username" />
+			<input type="email" id="emailinput"
               value={registerData.email}
               onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
               required
               aria-describedby="emailHelp"
-              placeholder="Enter email"
-            ></input>
-          </div>
-          <div className="form-group">
-            <label htmlFor="exampleInputPassword1">Password</label>
-            <input
-              type="password"
-              className="form-control"
+              placeholder="Enter email" />
+			<input type="password" id="passwordinput"
               value={registerData.password}
               onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
               required
-              placeholder="Password"
-            ></input>
-          </div>
-          <button type="submit" className="btn btn-primary mt-3">
-            Register
-          </button>
-        </form>
-      </div>
-    </div>
+              placeholder="Password" />
+			<button type="submit" id="signUp">Sign Up</button>
+		</form>
+	</div>
+	<div className="form-container sign-in-container">
+		<form onSubmit={handleLoginSubmit}>
+			<h1>Sign in</h1>
+			{/* <span>or use your account</span> */}
+			<input type="text"
+              value={loginData.username}
+              onChange={(e) => setLoginData({ ...loginData, username: e.target.value })}
+              required
+              aria-describedby="emailHelp"
+              placeholder="Enter username" />
+			<input type="password"
+              value={loginData.password}
+              onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+              required
+              placeholder="Password" />
+			<a href="#">Forgot your password?</a>
+			<button id="signIn">Sign In</button>
+		</form>
+	</div>
+	<div className="overlay-container">
+		<div className="overlay">
+			<div className="overlay-panel overlay-left">
+				<h1>Welcome Back!</h1>
+				<p>To keep connected with us please login with your personal info</p>
+				<button className="ghost" id="signIn" ref={signInButtonRef}>Sign In</button>
+			</div>
+			<div className="overlay-panel overlay-right">
+				<h1>Hello, Friend!</h1>
+				<p>Enter your personal details and start journey with us</p>
+				<button className="ghost" type="submit" id="signUp" ref={signUpButtonRef}>Sign Up</button>
+			</div>
+		</div>
+	</div>
+</div>
   );
 }
 

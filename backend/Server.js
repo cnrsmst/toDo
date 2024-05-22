@@ -11,8 +11,14 @@ const PORT = process.env.PORT;
 
 
 app.use(express.json());
-app.use(cors());
-
+// const corsOptions = {
+//     origin: 'https://todo-app-client-50ec65dd0149.herokuapp.com',
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     credentials: true,
+//     optionsSuccessStatus: 204
+//   };
+  
+  app.use(cors());
 
 mongoose.connect(process.env.MONGO_URI)
 .then(()=> {

@@ -9,6 +9,14 @@ function Home({ setIsLoggedIn }) {
   const signUpButtonRef = useRef(null);
 
   useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      setIsLoggedIn(true);
+      navigate("/todos")
+    }
+  }, []);
+
+  useEffect(() => {
     const container = containerRef.current;
     const signUpButton = signUpButtonRef.current;
     const signInButton = signInButtonRef.current;
@@ -42,7 +50,8 @@ function Home({ setIsLoggedIn }) {
         loginData
       );
       // Başarılı giriş durumunda yapılacak işlemler
-      console.log(response.data);
+      localStorage.setItem('accessToken', response.data.token);
+      // console.log(response.data);
       setIsLoggedIn(true);
       navigate('/todos');
     } catch (error) {
@@ -68,7 +77,7 @@ function Home({ setIsLoggedIn }) {
 
   return (
 
-<div className="container" id="container" ref={containerRef}>
+<div className="container loginDiv" id="container" ref={containerRef}>
 	<div className="form-container sign-up-container">
 		<form onSubmit={handleRegisterSubmit}>
 			<h1>Create Account</h1>

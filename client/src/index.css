@@ -21,6 +21,9 @@
 .main-div div {
   margin-right: 30px;
 }
+.trash-icon {
+	margin-right: 5px;
+  }
 
 .trash-icon:hover {
   cursor: pointer;
@@ -265,6 +268,124 @@ li.list-group-item:last-of-type {
 	border-bottom: none;
   }
 
+  .paper {
+    font-family: "Patrick Hand", cursive;
+    position: relative;
+    line-height: 25px;
+    box-sizing: content-box;
+    width: 425px;
+    height: 550px;
+    background-color: white;
+    margin: 0 auto;
+    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, margin 0.3s;
+}
+
+.paper:before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 2px;
+    background: rgba(255, 0, 0, 0.3);
+    margin-left: 48px;
+    z-index: 2;
+}
+
+.lines {
+    top: 50px;
+    position: relative;
+    box-sizing: content-box;
+    height: calc(550px - 50px);
+    padding-right: 8px;
+    padding-left: 56px;
+    background-image: repeating-linear-gradient(white 0px, white 23.5px, steelblue 25px);
+}
+
+.lines ul {
+	display: flex;
+    margin: 0;
+	padding: 0px 0px 0px 30px;
+}
+.lines ul li{
+	display: flex;
+    justify-content: space-between;
+	text-decoration-thickness: 2.5px!important;
+}
+.lines ul li::before {
+    content: '•'; /* Or use another symbol, e.g., '\2022' for a bullet */
+    position: absolute;
+    left: 53px;
+    color: black; /* Change to match your desired color */
+	font-size: 26px; /* Adjust size as needed */
+	padding-left: 20px;
+	margin-top: 2px
+}
+
+.holes {
+    position: absolute;
+    height: 100%;
+    width: 48px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    top: 0;
+    left: 0;
+}
+
+.hole {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: gainsboro;
+    left: 12.5px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+
+.hole:nth-child(1) {
+    top: 50px;
+}
+
+.hole:nth-child(2) {
+    top: 262.5px;
+}
+
+.hole:nth-child(3) {
+    top: 475px;
+}
+
+.containerDiv {
+    width: 500px!important;
+    zoom: 95%!important;
+}
 
 
 
+@media only screen and (max-width: 530px) {
+    .containerDiv {
+        width: 450px!important;
+        /* transform: scale(0.8);
+        transform-origin: 50% 50%;
+        transition: transform 0.3s, margin 0.3s; */
+    }
+}
+
+@media only screen and (max-width: 470px) {
+    .containerDiv {
+        width: 390px!important;
+    }
+}
+@media only screen and (max-width: 405px) {
+    .containerDiv {
+        width: 350px!important;
+    }
+}
+
+@media (min-width: 350px) and (max-width: 450px) {
+    .loginDiv {
+        width: 400px!important;
+        zoom: 110%;
+    }
+    input {
+        width: 160px;
+    }
+}

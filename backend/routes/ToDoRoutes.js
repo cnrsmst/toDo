@@ -8,6 +8,5 @@ router.get("/get", getToDos);
 router.post("/save", saveToDo);
 router.put('/update/:id', updateToDo);
 router.delete('/delete/:id', deleteToDo);
-// router.get('/todos',authenticate,getUserToDo);
 
 module.exports = router;
